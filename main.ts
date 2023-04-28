@@ -21,6 +21,7 @@ serve(async (request) => {
 
   // 从请求头中获取Authorization字段，并解析出token
   const auth = request.headers.get("Authorization") as string;
+  if(auth === null) return json({message: "no auth"}, {status: 403});
   const token = auth.split(" ")[1];
 
   // 如果token以"wx-"开头，则表示这是一个用户请求
