@@ -30,7 +30,7 @@ serve(async (request) => {
 
     // 在DynamoDB中查找该用户
     const { Item } = await client.getItem({
-      TableName: "chat",
+      TableName: "ai_chat",
       Key: {
         username: { S: parts[0] },
       },
