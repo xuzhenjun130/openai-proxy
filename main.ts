@@ -67,7 +67,7 @@ serve(async (request) => {
     }
 
     // 检查请求次数是否超限，如果超限，则返回403状态码和错误消息
-    if (parseInt(Item.req_times.N) > 1000) {
+    if (parseInt(Item.req_times.N) > 100) {
       return json(
         {
           message: "req_times exceeded",
@@ -84,7 +84,7 @@ serve(async (request) => {
 
     // 更新用户的请求次数
     await client.updateItem({
-      TableName: "chat",
+      TableName: "ai_chat",
       Key: {
         username: { S: parts[0] },
       },
