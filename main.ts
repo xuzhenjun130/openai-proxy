@@ -95,7 +95,7 @@ serve(async (request) => {
 
     // 将主机名设置为OpenAI API的主机名，并将请求转发给OpenAI API
     url.host = OPENAI_API_HOST;
-    return await fetch(url, { headers });
+    return await fetch(url, { headers, method: request.method, body: request.body });
 
   } else {
     return json({ message: "key格式不正确" }, { status: 403 });
