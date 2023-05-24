@@ -4,7 +4,7 @@ import { json } from "https://deno.land/x/sift@0.6.0/mod.ts";
 import { DynamoDB } from "https://aws-api.deno.dev/v0.3/services/dynamodb.ts";
 import { ApiFactory } from "https://deno.land/x/aws_api@v0.7.0/client/mod.ts";
 
-// 通过提供区域信息创建DynamoDB客户端实例。
+//通过提供区域信息创建DynamoDB客户端实例。
 const client = new ApiFactory().makeNew(DynamoDB);
 
 // 定义OpenAI API的主机名
