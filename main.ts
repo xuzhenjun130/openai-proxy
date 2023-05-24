@@ -87,9 +87,9 @@ serve(async (request) => {
       Key: {
         username: { S: parts[0] },
       },
-      UpdateExpression: "set req_times = :e",
+      UpdateExpression: "set reqTimes = :e",
       ExpressionAttributeValues: {
-        ":e": { N: (parseInt(Item.req_times.N) + 1).toString() },
+        ":e": { N: (parseInt(Item.reqTimes.N) + 1).toString() },
       },
     });
 
