@@ -93,6 +93,8 @@ serve(async (request) => {
         ":e": { N: (parseInt(Item.req_times.N) + 1).toString() },
       },
     });
+  }else{
+    return json({message: "key格式不正确"}, {status: 403});
   }
 
   // 将主机名设置为OpenAI API的主机名，并将请求转发给OpenAI API
