@@ -40,7 +40,7 @@ serve(async (request) => {
     if (!Item) {
       return json(
         {
-          message: "couldn't find the user: " + parts[0],
+          message: "请关注微信公众号：code思维。找不到该用户: " + parts[0],
         },
         { status: 404 },
       );
@@ -50,7 +50,7 @@ serve(async (request) => {
     if (Item.key.S != parts[1]) {
       return json(
         {
-          message: "wrong key",
+          message: "用户密钥不正确wrong key， 请关注微信公众号：code思维",
         },
         { status: 403 },
       );
@@ -60,17 +60,17 @@ serve(async (request) => {
     if (new Date(Item.expired.S).getTime() < new Date().getTime()) {
       return json(
         {
-          message: "key expired",
+          message: "key 授权过期了，请关注微信公众号：code思维，回复:key",
         },
         { status: 403 },
       );
     }
 
     // 检查请求次数是否超限，如果超限，则返回403状态码和错误消息
-    if (parseInt(Item.req_times.N) > 100) {
+    if (parseInt(Item.req_times.N) > parseInt(Item.limit.N)) {
       return json(
         {
-          message: "req_times exceeded",
+          message: "请求次数超过" + Item.limit.N + "次，请明天再试，或者加入我的微信群",
         },
         { status: 403 },
       );
