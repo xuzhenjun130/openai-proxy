@@ -21,7 +21,7 @@ serve(async (request) => {
 
   // 从请求头中获取Authorization字段，并解析出token
   const auth = request.headers.get("Authorization") as string;
-  if(auth === null) return json({message: "no auth"}, {status: 403});
+  if (auth === null) return json({ message: "no auth" }, { status: 403 });
   const token = auth.split(" ")[1];
 
   // 如果token以"wx-"开头，则表示这是一个用户请求
@@ -77,10 +77,9 @@ serve(async (request) => {
     }
 
     // 设置OpenAI API的身份验证令牌
-    request.headers.set(
-      "Authorization",
-      "Bearer " + Deno.env.get("OPENAI_API_KEY"),
-    );
+
+    const headers = new Headers();
+    headers.set("Authorization", "Bearer " + Deno.env.get("OPENAI_API_KEY"));
 
     // 更新用户的请求次数
     await client.updateItem({
@@ -93,11 +92,14 @@ serve(async (request) => {
         ":e": { N: (parseInt(Item.req_times.N) + 1).toString() },
       },
     });
-  }else{
-    return json({message: "key格式不正确"}, {status: 403});
+
+    // 将主机名设置为OpenAI API的主机名，并将请求转发给OpenAI API
+    url.host = OPENAI_API_HOST;
+    return await fetch(url, { headers });
+
+  } else {
+    return json({ message: "key格式不正确" }, { status: 403 });
   }
 
-  // 将主机名设置为OpenAI API的主机名，并将请求转发给OpenAI API
-  url.host = OPENAI_API_HOST;
-  return await fetch(url, request);
+
 });
