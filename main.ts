@@ -67,7 +67,7 @@ serve(async (request) => {
     }
 
     // 检查请求次数是否超限，如果超限，则返回403状态码和错误消息
-    if (parseInt(Item.req_times.N) > parseInt(Item.limit.N)) {
+    if (parseInt(Item.reqTimes.N) > parseInt(Item.limit.N)) {
       return json(
         {
           message: "请求次数超过" + Item.limit.N + "次，请明天再试，或者加入我的微信群",
