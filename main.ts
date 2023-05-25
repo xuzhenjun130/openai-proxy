@@ -35,6 +35,7 @@ serve(async (request) => {
         username: { S: parts[0] },
       },
     });
+    console.log("Item", Item);
 
     // 如果找不到该用户，则返回404状态码和错误消息
     if (!Item) {
