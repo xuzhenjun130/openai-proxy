@@ -18,6 +18,9 @@ serve(async (request) => {
   if (url.pathname === "/") {
     return fetch(new URL("./index.html", import.meta.url));
   }
+  if (url.pathname.indexOf("/img") >= 0) {
+    return fetch(new URL(url.pathname, import.meta.url));
+  }
 
   // 从请求头中获取Authorization字段，并解析出token
   const auth = request.headers.get("Authorization") as string;
