@@ -16,7 +16,7 @@ serve(async (request) => {
 
   // 如果请求路径是根路径，则返回Readme.md文件
   if (url.pathname === "/") {
-    return fetch(new URL("./Readme.md", import.meta.url));
+    return fetch(new URL("./index.html", import.meta.url));
   }
 
   // 从请求头中获取Authorization字段，并解析出token
