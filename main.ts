@@ -35,6 +35,7 @@ serve(async (request) => {
         username: { S: parts[0] },
       },
     });
+    //console.log("Item", Item);
 
     // 如果找不到该用户，则返回404状态码和错误消息
     if (!Item) {
@@ -76,11 +77,6 @@ serve(async (request) => {
       );
     }
 
-    // 设置OpenAI API的身份验证令牌
-
-    const headers = new Headers();
-    headers.set("Authorization", "Bearer " + Deno.env.get("OPENAI_API_KEY"));
-
     // 更新用户的请求次数
     await client.updateItem({
       TableName: "ai_chat",
@@ -95,7 +91,11 @@ serve(async (request) => {
 
     // 将主机名设置为OpenAI API的主机名，并将请求转发给OpenAI API
     url.host = OPENAI_API_HOST;
-    return await fetch(url, { headers, method: request.method, body: request.body });
+    // Create a new request based on the old one
+    const modifiedRequest = new Request(request);
+    // 设置OpenAI API的身份验证令牌
+    modifiedRequest.headers.set('Authorization', 'Bearer '+Deno.env.get("OPENAI_API_KEY"));
+    return await fetch(url, modifiedRequest);
 
   } else {
     return json({ message: "key格式不正确" }, { status: 403 });
