@@ -18,8 +18,18 @@ serve(async (request) => {
   if (url.pathname === "/") {
     return fetch(new URL("./index.html", import.meta.url));
   }
+  //图片文件
   if (url.pathname.indexOf("/img") >= 0) {
-    return fetch(new URL(url.pathname, import.meta.url));
+    try {
+      const content = await Deno.readFile("." + url.pathname);
+      return new Response(content, { status: 200 });
+    } catch (error) {
+      if (error instanceof Deno.errors.NotFound) {
+        return new Response("Not found", { status: 404 });
+      } else {
+        throw error;
+      }
+    }
   }
 
   // 从请求头中获取Authorization字段，并解析出token
