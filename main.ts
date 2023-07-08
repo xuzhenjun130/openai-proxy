@@ -8,7 +8,7 @@ import { ApiFactory } from "https://deno.land/x/aws_api@v0.7.0/client/mod.ts";
 const client = new ApiFactory().makeNew(DynamoDB);
 
 // 定义OpenAI API的主机名
-const OPENAI_API_HOST = "api.openai.com";
+const OPENAI_API_HOST = Deno.env.get("openai_api_host") || "api.openai.com";
 
 // 创建HTTP服务器并处理请求
 serve(async (request) => {
